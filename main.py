@@ -255,28 +255,27 @@ def loadRoom(roomNumber):
     f.close()
     
 
-def displayWorld(data):
+def loadWorld(worldNumber):
     global virtualGraphicWorld
     virtualGraphicWorld = ""
-    #print(data)
+
 
     i = 0
     x = 0
     y = 0
-    for char in data:
-        if char == '\n':
-            #print(' ')
-            x = 0
-            y = y + 1
-        else:
-            #print(i , ' ', char, x, ' ', y)
-                
-            virtualGraphicWorld += char    
-                
-            x = x + 1
-            i = i + 1
-    
-    
+    filename = "world" + str(worldNumber) + ".txt"
+    f = open(filename, "r")
+    lines = f.readlines()
+
+    for y, line in enumerate(lines):
+        for x, char in enumerate(line):
+            if char == '\n':
+                continue
+            else:
+                #print(i , ' ', char, x, ' ', y)
+                    
+                virtualGraphicWorld += char    
+                    
 
 def getValueRoomFromGraphicPosition(gx, gy):
     vx = gx / 5
@@ -352,17 +351,6 @@ posx = 100
 posy = 100
 
 
-world = """0000000000
-0000000000
-0000100000
-0001110000
-0000100000
-0000000000
-0000000000
-0000000000
-0000000000
-0000000000"""
-
 
 room = [0] * 10 * 10
 
@@ -370,8 +358,7 @@ room = [0] * 10 * 10
 virtualGraphicRoom = ""
 virtualGraphicWorld = ""
 
-displayWorld(world)
-
+loadWorld(1)
 
 roomx = 4
 roomy = 2
