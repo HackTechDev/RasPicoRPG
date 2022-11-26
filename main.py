@@ -4,6 +4,7 @@ import utime
 import os
 import math
 
+
 import modlcd
 
 # ============ Start of Drive Code ================
@@ -342,7 +343,39 @@ def loadWorld(worldNumber):
                 #print(i , ' ', char, x, ' ', y)
                     
                 virtualGraphicWorld += char    
+
+def saveMapWorld(roomx, roomy):
+    worldNumber = 1
+    
+    os.rename("world" + str(worldNumber) + ".txt", "world" + str(worldNumber) + ".tmp")
+    
+    e = open("world" + str(worldNumber) + ".txt", "w+")
+    
+    f = open("world" + str(worldNumber) + ".tmp", "r")
+    lines = f.readlines()
+    
+    writeRoom = 0
+    
+    for y, line in enumerate(lines):
+        for x, char in enumerate(line):
+            if char == '\n':
+                print("\n")
+                e.write("\n")
+            else:
+                if x == roomx and y == roomy:
+                    print(char, ' : ', x, ' ', y)
+                    e.write("1")
+                    writeRoom = 1 # Room has been created                        
                     
+                if writeRoom == 0:
+                    print(char, ' : ', x, ' ', y)
+                    e.write(char)
+                
+                writeRoom = 0
+           
+
+
+
 def displayMapWorld():
     LCD.fill(0)
     LCD.show()
@@ -359,9 +392,10 @@ def displayMapWorld():
     for y, line in enumerate(lines):
         for x, char in enumerate(line):
             if char == '\n':
-                print("\n")
+                continue
+                #print("\n")
             else:
-                print(i , ' ', char, x, ' ', y)
+                #print(i , ' ', char, x, ' ', y)
                 if char == "1":
                     LCD.fill_rect(x * 15, y * 15, 15, 15, colour(0,200,0))
                 if char == "S":
@@ -504,6 +538,8 @@ def game():
                 roomy = roomy - 1            
                 loadRoom(roomy * 10 + roomx)
                 print("Room:" + str(roomy * 10 + roomx))
+                saveMapWorld(roomx, roomy)
+                
                 posy = 200
                 
                 
@@ -524,6 +560,8 @@ def game():
                 roomy = roomy + 1
                 loadRoom(roomy * 10 + roomx)
                 print("Room:" + str(roomy * 10 + roomx))
+                saveMapWorld(roomx, roomy)
+                
                 posy = 0
                 
                 
@@ -548,6 +586,8 @@ def game():
                 roomx = roomx - 1
                 loadRoom(roomy * 10 + roomx)
                 print("Room:" + str(roomy * 10 + roomx))
+                saveMapWorld(roomx, roomy)
+                
                 posx = 205
                 
                 
@@ -567,8 +607,9 @@ def game():
                 roomx = roomx + 1
                 loadRoom(roomy * 10 + roomx)
                 print("Room:" + str(roomy * 10 + roomx))
-                posx = 0
+                saveMapWorld(roomx, roomy)
                 
+                posx = 0
                 
                 displayPlayer(posx, posy, LCD.white) 
             elif checkCollisionRight(posx, posy) == 0:
