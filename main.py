@@ -143,6 +143,7 @@ cmap = ['00000000000000000000000000000000000', #Space
         '01000101010001000000000000000000000' #}~
 ]
 
+
 def printchar(letter,xpos,ypos,size,charupdate,c):
     origin = xpos
     charval = ord(letter)
@@ -177,7 +178,8 @@ def printchar(letter,xpos,ypos,size,charupdate,c):
         ypos+=size
     if charupdate == True:
         LCD.show()
-    
+
+
 def delchar(xpos,ypos,size,delupdate):
     if size == 1:
         charwidth = 5
@@ -192,6 +194,7 @@ def delchar(xpos,ypos,size,delupdate):
     LCD.fill_rect(xpos,ypos,charwidth,charheight,c) #xywh
     if delupdate == True:
         LCD.show()
+
 
 def printstring(string,xpos,ypos,size,charupdate,strupdate,c):   
     if size == 1:
@@ -208,8 +211,6 @@ def printstring(string,xpos,ypos,size,charupdate,strupdate,c):
 # =============End of Characters section ===============
 
 
-
-
 def ring(cx,cy,r,cc):   # Draws a circle - with centre (x,y), radius, colour 
     for angle in range(91):  # 0 to 90 degrees in 2s
         y3=int(r*math.sin(math.radians(angle)))
@@ -220,42 +221,9 @@ def ring(cx,cy,r,cc):   # Draws a circle - with centre (x,y), radius, colour
         LCD.pixel(cx+x3,cy-y3,cc)
 
 
-def lines():
-    LCD.fill(0)
-    LCD.show()
-    c = colour(200,200,200)
-    printstring("Lines",30,40,2,0,0,c)
-    LCD.show()
-    c = colour(255,0,0)
-    b = colour(0,0,255)
-    LCD.vline(0,0,239,c)   # Screen edges
-    LCD.hline(0,239,239,c)
-    LCD.vline(239,0,239,b)
-    LCD.hline(239,1,239,b)
-    for i in range(0,240,5): # Sloping lines
-        ii = i +1
-        LCD.line(0,ii,ii,239,c)
-        LCD.line(239,239-ii,239-ii,0,b)
-        utime.sleep(0.03)
-        LCD.show()
-    
-    c = colour(200,200,200)
-    printstring("Circles",120,190,2,0,0,c)
-    LCD.show()
-    ring(120,120,47,colour(170,170,70))
-    ring(120,120,41,colour(200,200,200))
-    ring(120,120,35,colour(250,250,250))
-    LCD.show()
-    ring(120,120,30,colour(255,255,0))
-    ring(120,120,25,colour(255,0,255))
-    ring(120,120,20,colour(0,255,255))
-    LCD.show()
-    utime.sleep(3)
-    LCD.fill(0)
-    LCD.show()
-
 def hidePlayer(posx, posy, color):
     LCD.fill_rect(posx, posy, 35, 40, color)    
+
 
 def displayPlayer(posx, posy, color):
     LCD.fill_rect(posx + 10, posy, 5, 5, color)
@@ -344,6 +312,7 @@ def loadWorld(worldNumber):
                     
                 virtualGraphicWorld += char    
 
+
 def saveMapWorld(roomx, roomy):
     worldNumber = 1
     
@@ -363,12 +332,12 @@ def saveMapWorld(roomx, roomy):
                 e.write("\n")
             else:
                 if x == roomx and y == roomy:
-                    print(char, ' : ', x, ' ', y)
+                    #print(char, ' : ', x, ' ', y)
                     e.write("1")
                     writeRoom = 1 # Room has been created                        
                     
                 if writeRoom == 0:
-                    print(char, ' : ', x, ' ', y)
+                    #print(char, ' : ', x, ' ', y)
                     e.write(char)
                 
                 writeRoom = 0
@@ -445,6 +414,7 @@ def checkCollisionLeft(posx, posy):
             return 1
     return 0
 
+
 def checkCollisionRight(posx, posy):
     print("checkCollisionRight")
     for i in range(0, 40, 5):
@@ -453,11 +423,13 @@ def checkCollisionRight(posx, posy):
             return 1
     return 0
 
+
 def checkCollisionUp(posx, posy):
     for i in range(0, 35, 5):
         if getValueRoomFromGraphicPosition(posx + i, posy - 5) == "1":
             return 1
     return 0        
+
 
 def checkCollisionDown(posx, posy):
     print("checkCollisionDown")
