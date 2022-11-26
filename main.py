@@ -475,6 +475,11 @@ def loadPlayer():
     return lines[0].split(",")
 
 
+def savePlayer(posx, posy, roomx, roomy):
+    f = open("player.txt", "w")
+    f.write(str(posx) + "," + str(posy) + "," + str(roomx) + "," + str(roomy))
+
+
 def game():
     
     posx = int(loadPlayer()[0])
@@ -529,17 +534,19 @@ def game():
                 loadRoom(roomy * 10 + roomx)
                 print("Room:" + str(roomy * 10 + roomx))
                 saveMapWorld(roomx, roomy)
-                
                 posy = 200
                 
                 
                 displayPlayer(posx, posy, LCD.white)
+                
                 
             elif checkCollisionUp(posx, posy) == 0:
                 hidePlayer(posx, posy, colour(40,40,40))
                 posy = posy - 5
                 displayPlayer(posx, posy, LCD.white)
                 
+            savePlayer(posx, posy, roomx, roomy)
+            
         # Move DOWN        
         if(down.value() == 0):
             print("DOWN", " ", posx, "/", posy)
@@ -562,7 +569,8 @@ def game():
                 hidePlayer(posx, posy, colour(40,40,40))
                 posy = posy + 5
                 displayPlayer(posx, posy, LCD.white)
-            
+                
+            savePlayer(posx, posy, roomx, roomy)
             
         # Move LEFT    
         if(left.value() == 0):
@@ -580,12 +588,15 @@ def game():
                 
                 posx = 205
                 
-                
                 displayPlayer(posx, posy, LCD.white)
+                
+                
             elif checkCollisionLeft(posx, posy) == 0:
                 hidePlayer(posx, posy, colour(40,40,40))
                 posx = posx - 5
                 displayPlayer(posx, posy, LCD.white) 
+            
+            savePlayer(posx, posy, roomx, roomy)
             
         # Move RIGHT
         if(right.value() == 0):
@@ -601,13 +612,16 @@ def game():
                 
                 posx = 0
                 
-                displayPlayer(posx, posy, LCD.white) 
+                displayPlayer(posx, posy, LCD.white)
+                
+                
             elif checkCollisionRight(posx, posy) == 0:
                 hidePlayer(posx, posy, colour(40,40,40))
                 posx = posx + 5
                 displayPlayer(posx, posy, LCD.white) 
             
-
+            savePlayer(posx, posy, roomx, roomy)
+            
         # CONTROL
         if(ctrl.value() == 0):
             print("CTRL")
