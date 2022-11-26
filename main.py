@@ -343,6 +343,45 @@ def loadWorld(worldNumber):
                     
                 virtualGraphicWorld += char    
                     
+def displayMapWorld():
+    LCD.fill(0)
+    LCD.show()
+    global virtualGraphicWorld
+    virtualGraphicWorld = ""
+    worldNumber = 1
+    i = 0
+    x = 0
+    y = 0
+    filename = "world" + str(worldNumber) + ".txt"
+    f = open(filename, "r")
+    lines = f.readlines()
+
+    for y, line in enumerate(lines):
+        for x, char in enumerate(line):
+            if char == '\n':
+                print("\n")
+            else:
+                print(i , ' ', char, x, ' ', y)
+                if char == "1":
+                    LCD.fill_rect(x * 15, y * 15, 15, 15, colour(0,200,0))
+                if char == "S":
+                    LCD.fill_rect(x * 15, y * 15, 15, 15, colour(200,0,0))                     
+                if char == "0":
+                    LCD.fill_rect(x * 15, y * 15, 15, 15, colour(100,100,100))
+
+    running = True # Loop control
+    
+        # =========== Main loop ===============
+    while(running):
+        LCD.show()
+        if (keyA.value() == 0) and (keyY.value() == 0): # Halt looping?
+            # Background colour - dark grey
+            LCD.fill(colour(40,40,40))
+            LCD.show()
+            running = False
+            
+        utime.sleep(.15) # Debounce delay - reduce multiple button reads    
+
 
 def getValueRoomFromGraphicPosition(gx, gy):
     vx = gx / 5
@@ -595,7 +634,7 @@ while running:
         if(m == 2): # Exit loop and HALT program
             running = False
         if(m == 1):
-            lines()
+            displayMapWorld()
         if(m == 0):
             game()
             
