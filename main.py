@@ -374,6 +374,19 @@ def saveMapWorld(roomx, roomy):
                 writeRoom = 0
            
 
+def initMapWorld(worldNumber):
+    f = open("world" + str(worldNumber) + ".txt", "w")
+    
+    for i in range(0, 10):
+        for j in range(0, 10):
+            f.write("0")
+            if j == 9:
+                f.write("\n")
+    
+
+def initPlayer():
+    f = open("player.txt", "w")
+    f.write("100,100,4,2")
 
 
 def displayMapWorld():
@@ -455,40 +468,17 @@ def checkCollisionDown(posx, posy):
     return 0   
 
 
-# =========== Main ============
-pwm = PWM(Pin(BL)) # Screen Brightness
-pwm.freq(1000)
-pwm.duty_u16(32768) # max 65535 - mid value
+def loadPlayer():
+    f = open("player.txt", "r")
+    lines = f.readlines()
 
-LCD = modlcd.LCD_1inch3()
-# Background colour - dark grey
-LCD.fill(colour(40,40,40))
-LCD.show()
+    return lines[0].split(",")
 
-# Define pins for buttons and Joystick
-keyA = Pin(15,Pin.IN,Pin.PULL_UP) # Normally 1 but 0 if pressed
-keyB = Pin(17,Pin.IN,Pin.PULL_UP)
-keyX = Pin(19,Pin.IN,Pin.PULL_UP)
-keyY= Pin(21,Pin.IN,Pin.PULL_UP)
-
-up = Pin(2,Pin.IN,Pin.PULL_UP)
-down = Pin(18,Pin.IN,Pin.PULL_UP)
-left = Pin(16,Pin.IN,Pin.PULL_UP)
-right = Pin(20,Pin.IN,Pin.PULL_UP)
-ctrl = Pin(3,Pin.IN,Pin.PULL_UP)
-
-# Draw background, frame, title and instructions
-LCD.rect(0,0,240,240,LCD.red) # Red edge
-# White Corners
-LCD.pixel(1,1,LCD.white)     # LT
-LCD.pixel(0,239,LCD.white)   # LB
-LCD.pixel(239,0,LCD.white)   # RT
-LCD.pixel(239,239,LCD.white) # RB
-LCD.show()
 
 def game():
-    posx = 100
-    posy = 100
+    
+    posx = int(loadPlayer()[0])
+    posy = int(loadPlayer()[1])
 
     room = [0] * 10 * 10
 
@@ -498,8 +488,8 @@ def game():
 
     loadWorld(1)
 
-    roomx = 4
-    roomy = 2
+    roomx = int(loadPlayer()[2])
+    roomy = int(loadPlayer()[3])
 
     loadRoom(roomy * 10 + roomx)
 
@@ -634,8 +624,43 @@ def game():
 
 
 
+# =========== Main ============
+pwm = PWM(Pin(BL)) # Screen Brightness
+pwm.freq(1000)
+pwm.duty_u16(32768) # max 65535 - mid value
+
+LCD = modlcd.LCD_1inch3()
+# Background colour - dark grey
+LCD.fill(colour(40,40,40))
+LCD.show()
+
+# Define pins for buttons and Joystick
+keyA = Pin(15,Pin.IN,Pin.PULL_UP) # Normally 1 but 0 if pressed
+keyB = Pin(17,Pin.IN,Pin.PULL_UP)
+keyX = Pin(19,Pin.IN,Pin.PULL_UP)
+keyY= Pin(21,Pin.IN,Pin.PULL_UP)
+
+up = Pin(2,Pin.IN,Pin.PULL_UP)
+down = Pin(18,Pin.IN,Pin.PULL_UP)
+left = Pin(16,Pin.IN,Pin.PULL_UP)
+right = Pin(20,Pin.IN,Pin.PULL_UP)
+ctrl = Pin(3,Pin.IN,Pin.PULL_UP)
+
+# Draw background, frame, title and instructions
+LCD.rect(0,0,240,240,LCD.red) # Red edge
+# White Corners
+LCD.pixel(1,1,LCD.white)     # LT
+LCD.pixel(0,239,LCD.white)   # LB
+LCD.pixel(239,0,LCD.white)   # RT
+LCD.pixel(239,239,LCD.white) # RB
+LCD.show()
 
 # ======= Menu ==============
+
+initMapWorld(1)
+initPlayer()
+
+
 m = 0
 yellow = colour(255,255,0)
 blue = colour(0,0,255)
