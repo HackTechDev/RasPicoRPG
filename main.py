@@ -207,142 +207,144 @@ LCD.pixel(239,239,LCD.white) # RB
 LCD.text('Raspico Roguelike', 20, 10, colour(0,0,255))
 LCD.show()
 
-posx = 100
-posy = 100
+def game():
+    posx = 100
+    posy = 100
+
+    room = [0] * 10 * 10
 
 
+    virtualGraphicRoom = ""
+    virtualGraphicWorld = ""
 
-room = [0] * 10 * 10
+    loadWorld(1)
 
+    roomx = 4
+    roomy = 2
 
-virtualGraphicRoom = ""
-virtualGraphicWorld = ""
+    loadRoom(roomy * 10 + roomx)
 
-loadWorld(1)
+    #displayRoom(room)
+    print("room24")
 
-roomx = 4
-roomy = 2
-
-loadRoom(roomy * 10 + roomx)
-
-#displayRoom(room)
-print("room24")
-
-displayPlayer(posx, posy, LCD.white)
+    displayPlayer(posx, posy, LCD.white)
 
 
-currentPlayerWorldX = 4;
-currentPlayerWorldY = 2;
+    currentPlayerWorldX = 4;
+    currentPlayerWorldY = 2;
 
 
-running = True # Loop control
-# =========== Main loop ===============
-while(running):
-    if keyA.value() == 0:
-        print("A")
-    
-    if(keyB.value() == 0):
-        print("B")
-                   
-    if(keyX.value() == 0):
-        print("X")
+    running = True # Loop control
+    # =========== Main loop ===============
+    while(running):
+        if keyA.value() == 0:
+            print("A")
         
-    if(keyY.value() == 0):
-        print("Y")
-    
-    # Move UP
-    if(up.value() == 0):
-        print("UP", " ", posx, "/", posy)
+        if(keyB.value() == 0):
+            print("B")
+                       
+        if(keyX.value() == 0):
+            print("X")
+            
+        if(keyY.value() == 0):
+            print("Y")
         
-        if posy == 0:
-            print("Go to another room up")
-                        
-            roomy = roomy - 1            
-            loadRoom(roomy * 10 + roomx)
-            print("Room:" + str(roomy * 10 + roomx))
-            posy = 200
+        # Move UP
+        if(up.value() == 0):
+            print("UP", " ", posx, "/", posy)
+            
+            if posy == 0:
+                print("Go to another room up")
+                            
+                roomy = roomy - 1            
+                loadRoom(roomy * 10 + roomx)
+                print("Room:" + str(roomy * 10 + roomx))
+                posy = 200
+                
+                
+                displayPlayer(posx, posy, LCD.white)
+                
+            elif checkCollisionUp(posx, posy) == 0:
+                hidePlayer(posx, posy, colour(40,40,40))
+                posy = posy - 5
+                displayPlayer(posx, posy, LCD.white)
+                
+        # Move DOWN        
+        if(down.value() == 0):
+            print("DOWN", " ", posx, "/", posy)
+            
+            if posy + 40 == 240:
+                print("Go to another room down")
+                
+                roomy = roomy + 1
+                loadRoom(roomy * 10 + roomx)
+                print("Room:" + str(roomy * 10 + roomx))
+                posy = 0
+                
+                
+                displayPlayer(posx, posy, LCD.white)
+                
+                
+            elif checkCollisionDown(posx, posy) == 0:
+                hidePlayer(posx, posy, colour(40,40,40))
+                posy = posy + 5
+                displayPlayer(posx, posy, LCD.white)
             
             
-            displayPlayer(posx, posy, LCD.white)
+        # Move LEFT    
+        if(left.value() == 0):
+            print("LEFT", " ", posx, "/", posy)
             
-        elif checkCollisionUp(posx, posy) == 0:
-            hidePlayer(posx, posy, colour(40,40,40))
-            posy = posy - 5
-            displayPlayer(posx, posy, LCD.white)
+            print(getValueRoomFromGraphicPosition(posx - 5, posy))
             
-    # Move DOWN        
-    if(down.value() == 0):
-        print("DOWN", " ", posx, "/", posy)
-        
-        if posy + 40 == 240:
-            print("Go to another room down")
+            if posx == 0:
+                print("Go to another room left")
+                
+                roomx = roomx - 1
+                loadRoom(roomy * 10 + roomx)
+                print("Room:" + str(roomy * 10 + roomx))
+                posx = 205
+                
+                
+                displayPlayer(posx, posy, LCD.white)
+            elif checkCollisionLeft(posx, posy) == 0:
+                hidePlayer(posx, posy, colour(40,40,40))
+                posx = posx - 5
+                displayPlayer(posx, posy, LCD.white) 
             
-            roomy = roomy + 1
-            loadRoom(roomy * 10 + roomx)
-            print("Room:" + str(roomy * 10 + roomx))
-            posy = 0
+        # Move RIGHT
+        if(right.value() == 0):
+            print("RIGHT", " ", posx, "/", posy)
             
+            if posx + 35 == 240:
+                print("Go to another room right")
+                
+                roomx = roomx + 1
+                loadRoom(roomy * 10 + roomx)
+                print("Room:" + str(roomy * 10 + roomx))
+                posx = 0
+                
+                
+                displayPlayer(posx, posy, LCD.white) 
+            elif checkCollisionRight(posx, posy) == 0:
+                hidePlayer(posx, posy, colour(40,40,40))
+                posx = posx + 5
+                displayPlayer(posx, posy, LCD.white) 
             
-            displayPlayer(posx, posy, LCD.white)
-            
-            
-        elif checkCollisionDown(posx, posy) == 0:
-            hidePlayer(posx, posy, colour(40,40,40))
-            posy = posy + 5
-            displayPlayer(posx, posy, LCD.white)
-        
-        
-    # Move LEFT    
-    if(left.value() == 0):
-        print("LEFT", " ", posx, "/", posy)
-        
-        print(getValueRoomFromGraphicPosition(posx - 5, posy))
-        
-        if posx == 0:
-            print("Go to another room left")
-            
-            roomx = roomx - 1
-            loadRoom(roomy * 10 + roomx)
-            print("Room:" + str(roomy * 10 + roomx))
-            posx = 205
-            
-            
-            displayPlayer(posx, posy, LCD.white)
-        elif checkCollisionLeft(posx, posy) == 0:
-            hidePlayer(posx, posy, colour(40,40,40))
-            posx = posx - 5
-            displayPlayer(posx, posy, LCD.white) 
-        
-    # Move RIGHT
-    if(right.value() == 0):
-        print("RIGHT", " ", posx, "/", posy)
-        
-        if posx + 35 == 240:
-            print("Go to another room right")
-            
-            roomx = roomx + 1
-            loadRoom(roomy * 10 + roomx)
-            print("Room:" + str(roomy * 10 + roomx))
-            posx = 0
-            
-            
-            displayPlayer(posx, posy, LCD.white) 
-        elif checkCollisionRight(posx, posy) == 0:
-            hidePlayer(posx, posy, colour(40,40,40))
-            posx = posx + 5
-            displayPlayer(posx, posy, LCD.white) 
-        
 
-    # CONTROL
-    if(ctrl.value() == 0):
-        print("CTRL")
-                   
-    LCD.show()
-    if (keyA.value() == 0) and (keyY.value() == 0): # Halt looping?
-        running = False
-        
-    utime.sleep(.15) # Debounce delay - reduce multiple button reads
-    
+        # CONTROL
+        if(ctrl.value() == 0):
+            print("CTRL")
+                       
+        LCD.show()
+        if (keyA.value() == 0) and (keyY.value() == 0): # Halt looping?
+            running = False
+            
+        utime.sleep(.15) # Debounce delay - reduce multiple button reads
+
+
+game()
+
 # Finish
 LCD.fill(0)
 for r in range(10):
