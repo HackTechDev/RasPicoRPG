@@ -605,7 +605,9 @@ def game():
         utime.sleep(.15) # Debounce delay - reduce multiple button reads
 
 
-
+def generateMaze():
+    print("Generate Maze")
+    exec(open("generateMaze.py").read())
 
 # =========== Main ============
 pwm = PWM(Pin(BL)) # Screen Brightness
@@ -660,9 +662,14 @@ while running:
     if m == 1:
         c = blue
     printstring("Map",35,80,2,0,0,c)
-      
+
     c = yellow
     if m == 2:
+        c = blue
+    printstring("New World",35,110,2,0,0,c)
+
+    c = yellow
+    if m == 3:
         c = blue
     printstring("Quit",35,170,2,0,0,c)
     
@@ -680,8 +687,10 @@ while running:
             m = 2
                        
     elif(ctrl.value() == 0):
-        if(m == 2): # Exit loop and HALT program
+        if(m == 3): # Exit loop and HALT program
             running = False
+        if(m == 2):
+            generateMaze()            
         if(m == 1):
             displayMapWorld()
         if(m == 0):
