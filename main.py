@@ -355,7 +355,7 @@ def initMapWorld(worldNumber):
 
 def initPlayer():
     f = open("player.txt", "w")
-    f.write("100,100,4,2")
+    f.write("100,100,0,0")
 
 
 def displayMapWorld():
@@ -471,13 +471,10 @@ def game():
     loadRoom(roomy * 10 + roomx)
 
     #displayRoom(room)
-    print("room24")
+    print("Room")
 
     displayPlayer(posx, posy, LCD.white)
 
-
-    currentPlayerWorldX = 4;
-    currentPlayerWorldY = 2;
 
 
     running = True # Loop control
