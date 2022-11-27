@@ -271,12 +271,19 @@ def deleteAllRooms():
             print(f)
             os.remove(f)
 
+def saveInitPlayer(j, i):
+    f = open("player.txt", "w")
+    tmp = "100, 100," + str(j) + "," + str(i)
+    f.write(tmp)
+
 
 def printMaze(maze):
     doorNorth = 0
     doorEast = 0
     doorSouth = 0
     doorWest = 0
+    
+    initStartPlayer = 0
     
     for i in range(1, height - 1):
         for j in range(1, width - 1):
@@ -289,6 +296,11 @@ def printMaze(maze):
             print(maze[i][j-1])
             print("--")
             '''
+            
+            if (initStartPlayer == 0 and maze[i][j] == 'c' and i == 1):
+                saveInitPlayer(j - 1, i - 1)
+                initStartPlayer = 1
+            
             if (maze[i][j] == 'c'):
                 print(str(maze[i][j]), end="")
                 

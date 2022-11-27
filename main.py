@@ -353,9 +353,7 @@ def initMapWorld(worldNumber):
                 f.write("\n")
     
 
-def initPlayer():
-    f = open("player.txt", "w")
-    f.write("100,100,0,0")
+
 
 
 def displayMapWorld():
@@ -643,8 +641,6 @@ LCD.show()
 # ======= Menu ==============
 
 initMapWorld(1)
-initPlayer()
-
 
 m = 0
 yellow = colour(255,255,0)
