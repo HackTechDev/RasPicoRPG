@@ -257,6 +257,55 @@ def displayPlayer(posx, posy, color):
     LCD.fill_rect(posx + 20 , posy + 35, 5, 5, color)     
 
 
+def hideEnemy(posx, posy, color):
+    LCD.fill_rect(posx, posy, 35, 40, color)    
+
+
+def displayEnemy(posx, posy, color):
+    LCD.fill_rect(posx + 10, posy, 5, 5, color)
+    LCD.fill_rect(posx + 15, posy, 5, 5, color)
+    LCD.fill_rect(posx + 20, posy, 5, 5, color)
+    
+    LCD.fill_rect(posx + 10, posy + 5, 5, 5, color)
+    LCD.fill_rect(posx + 15, posy + 5, 5, 5, color)
+    LCD.fill_rect(posx + 20, posy + 5, 5, 5, color)
+    
+    LCD.fill_rect(posx + 15, posy + 10, 5, 5, color)
+    
+    LCD.fill_rect(posx + 5, posy + 15, 5, 5, color)
+    LCD.fill_rect(posx + 10, posy + 15, 5, 5, color)
+    LCD.fill_rect(posx + 15, posy + 15, 5, 5, color)
+    LCD.fill_rect(posx + 20, posy + 15, 5, 5, color)
+    LCD.fill_rect(posx + 25, posy + 15, 5, 5, color)
+
+    
+    LCD.fill_rect(posx, posy + 20, 5, 5, color)
+    LCD.fill_rect(posx + 15, posy + 20, 5, 5, color)
+    LCD.fill_rect(posx + 30, posy + 20, 5, 5, color)        
+    
+    LCD.fill_rect(posx + 10, posy + 25, 5, 5 , color)
+    LCD.fill_rect(posx + 20, posy + 25, 5, 5, color)  
+
+    LCD.fill_rect(posx + 10, posy + 30, 5, 5, color)
+    LCD.fill_rect(posx + 20, posy + 30, 5, 5, color)  
+
+    LCD.fill_rect(posx + 10 , posy + 35, 5, 5, color)
+    LCD.fill_rect(posx + 20 , posy + 35, 5, 5, color)     
+
+
+def displayEnemies(playerRoomx, playerRoomy, playerPosx, playerPosy):
+    
+    if playerRoomx == 1 and playerRoomy == 0 :
+        enemyPosx = 50
+        enemyPosy = 50
+        
+        displayEnemy(enemyPosx, enemyPosy, LCD.red)
+
+
+def checkEnemies(playerRoomx, playerRoomy, playerPosx, playerPosy):
+    print("checkEnemies")
+
+
 def displayWall(posx, posy, color):
     LCD.fill_rect(posx, posy, 5, 5, color)
 
@@ -351,9 +400,6 @@ def initMapWorld(worldNumber):
             f.write("0")
             if j == 9:
                 f.write("\n")
-    
-
-
 
 
 def displayMapWorld():
@@ -469,10 +515,9 @@ def game():
     loadRoom(roomy * 10 + roomx)
 
     #displayRoom(room)
-    print("Room")
+    print("Room : ", roomx, "/", roomy)
 
     displayPlayer(posx, posy, LCD.white)
-
 
 
     running = True # Loop control
@@ -503,8 +548,8 @@ def game():
                 saveMapWorld(roomx, roomy)
                 posy = 200
                 
-                
                 displayPlayer(posx, posy, LCD.white)
+                
                 
                 
             elif checkCollisionUp(posx, posy) == 0:
@@ -528,10 +573,9 @@ def game():
                 
                 posy = 0
                 
-                
                 displayPlayer(posx, posy, LCD.white)
                 
-                
+                  
             elif checkCollisionDown(posx, posy) == 0:
                 hidePlayer(posx, posy, colour(40,40,40))
                 posy = posy + 5
@@ -543,7 +587,6 @@ def game():
         if(left.value() == 0):
             print("LEFT", " ", posx, "/", posy)
             
-            print(getValueRoomFromGraphicPosition(posx - 5, posy))
             
             if posx == 0:
                 print("Go to another room left")
@@ -556,6 +599,7 @@ def game():
                 posx = 205
                 
                 displayPlayer(posx, posy, LCD.white)
+                
                 
                 
             elif checkCollisionLeft(posx, posy) == 0:
@@ -580,6 +624,7 @@ def game():
                 posx = 0
                 
                 displayPlayer(posx, posy, LCD.white)
+                
                 
                 
             elif checkCollisionRight(posx, posy) == 0:
