@@ -613,9 +613,9 @@ def game():
         if keyA.value() == 0:
             print("closeCombat: ", closeCombat)
             if closeCombat == 1:
-                printstring("Close Combat", 20, 20, 2, 0, 0, blue)
+                printchar("C", 20, 20, 2,True, blue)
             if closeCombat == 0:
-                pass
+                delchar(20,20,2,True)
                 #LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
                 #printstring("Close Combat", 20, 20, 2, 0, 0, colour(40,40,40))
                 
@@ -653,7 +653,7 @@ def game():
                 hidePlayer(posx, posy, colour(40,40,40))
                 posy = posy - 5
                 displayPlayer(posx, posy, LCD.white)
-                
+                delchar(20,20,2,True)
                 
             savePlayer(posx, posy, roomx, roomy)
             
@@ -680,7 +680,7 @@ def game():
                 hidePlayer(posx, posy, colour(40,40,40))
                 posy = posy + 5
                 displayPlayer(posx, posy, LCD.white)
-                
+                delchar(20,20,2,True)
                 
             savePlayer(posx, posy, roomx, roomy)
             
@@ -706,7 +706,7 @@ def game():
                 hidePlayer(posx, posy, colour(40,40,40))
                 posx = posx - 5
                 displayPlayer(posx, posy, LCD.white)
-                
+                delchar(20,20,2,True)
             
             savePlayer(posx, posy, roomx, roomy)
             
@@ -732,7 +732,7 @@ def game():
                 hidePlayer(posx, posy, colour(40,40,40))
                 posx = posx + 5
                 displayPlayer(posx, posy, LCD.white)
-                
+                delchar(20,20,2,True)
             
             savePlayer(posx, posy, roomx, roomy)
             
