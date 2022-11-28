@@ -331,7 +331,7 @@ def loadRoom(roomNumber):
     x = 0
     y = 0
     
-    filename = "room" + str(roomNumber) + ".txt"
+    filename = "./room/room" + str(roomNumber) + ".txt"
     f = open(filename, "r")
     lines = f.readlines()
 
@@ -615,7 +615,8 @@ def game():
             if closeCombat == 1:
                 printstring("Close Combat", 20, 20, 2, 0, 0, blue)
             if closeCombat == 0:
-                LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
+                pass
+                #LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
                 #printstring("Close Combat", 20, 20, 2, 0, 0, colour(40,40,40))
                 
             print("A")
@@ -652,7 +653,7 @@ def game():
                 hidePlayer(posx, posy, colour(40,40,40))
                 posy = posy - 5
                 displayPlayer(posx, posy, LCD.white)
-                LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
+                
                 
             savePlayer(posx, posy, roomx, roomy)
             
@@ -679,7 +680,7 @@ def game():
                 hidePlayer(posx, posy, colour(40,40,40))
                 posy = posy + 5
                 displayPlayer(posx, posy, LCD.white)
-                LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
+                
                 
             savePlayer(posx, posy, roomx, roomy)
             
@@ -705,7 +706,7 @@ def game():
                 hidePlayer(posx, posy, colour(40,40,40))
                 posx = posx - 5
                 displayPlayer(posx, posy, LCD.white)
-                LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
+                
             
             savePlayer(posx, posy, roomx, roomy)
             
@@ -731,7 +732,7 @@ def game():
                 hidePlayer(posx, posy, colour(40,40,40))
                 posx = posx + 5
                 displayPlayer(posx, posy, LCD.white)
-                LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
+                
             
             savePlayer(posx, posy, roomx, roomy)
             
