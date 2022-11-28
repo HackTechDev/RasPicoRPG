@@ -228,7 +228,7 @@ def generateMaze():
 def createDoorInRoom(roomx, roomy, doorPositionNorth, doorPositionEast, doorPositionSouth, doorPositionWest):
     roomNumber = roomy * 10 + roomx
     
-    f = open("room" + str(roomNumber) + ".txt", "w+")
+    f = open("./room/room" + str(roomNumber) + ".txt", "w+")
     
     blocked = 0
     
@@ -266,7 +266,7 @@ def createDoorInRoom(roomx, roomy, doorPositionNorth, doorPositionEast, doorPosi
 
 
 def deleteAllRooms():
-    for f in os.listdir("."):
+    for f in os.listdir("./room/"):
         if "room" in f and ".txt" in f:
             print(f)
             os.remove(f)
