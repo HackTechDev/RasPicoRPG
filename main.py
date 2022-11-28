@@ -457,14 +457,13 @@ def getValueRoomFromGraphicPosition(gx, gy):
     vy = gy / 5
     
     i = (vy * 48) + vx 
-    print(gx, " " , gy, " / " , " ", vx, " " , vy, " : " ,i)
-    print(int(i))
-    print(virtualGraphicRoom)
+
     return virtualGraphicRoom[int(i)] 
 
 
 def checkCollisionLeft(playerx, playery):
     print("checkCollisionLeft")
+    global closeCombat
     
     enemy = getEnemyInfo()
     enemyx = int(enemy[2])
@@ -477,19 +476,22 @@ def checkCollisionLeft(playerx, playery):
         
     if playerx - 5 >= enemyx and  playerx - 5 <= enemyx + 35 and playery >= enemyy and  playery <= enemyy + 40 :
         print("Close Combat")
+        closeCombat = 1
         return 2
 
     if playerx - 5 >= enemyx and  playerx - 5 <= enemyx + 35 and playery + 40 >= enemyy and  playery + 40 <= enemyy + 40 :        
         print("Close Combat")
+        closeCombat = 1
         return 2
         
-        
+    closeCombat = 0    
     return 0
 
 
 def checkCollisionRight(playerx, playery):
     print("checkCollisionRight")
-
+    global closeCombat
+    
     enemy = getEnemyInfo()
     enemyx = int(enemy[2])
     enemyy = int(enemy[3])
@@ -501,17 +503,21 @@ def checkCollisionRight(playerx, playery):
         
     if playerx + 40 >= enemyx and  playerx + 40 <= enemyx + 35 and playery >= enemyy and playery <= enemyy + 40:
         print("Close Combat")
+        closeCombat = 1
         return 2       
 
     if playerx + 40 >= enemyx and  playerx + 40 <= enemyx + 35 and playery + 35 >= enemyy and playery + 40 <= enemyy + 40:
         print("Close Combat")
+        closeCombat = 1
         return 2 
 
+    closeCombat = 0
     return 0
 
 
 def checkCollisionUp(playerx, playery):
     print("checkCollisionUp")
+    global closeCombat
 
     enemy = getEnemyInfo()
     enemyx = int(enemy[2])
@@ -523,17 +529,21 @@ def checkCollisionUp(playerx, playery):
         
     if playerx >= enemyx and  playerx <= enemyx + 35 and playery - 5 >= enemyy and  playery -5 <= enemyy + 40:
         print("Close Combat")
+        closeCombat = 1
         return 2
 
     if playerx + 35 >= enemyx and  playerx + 35 <= enemyx + 35 and playery - 5 >= enemyy and  playery -5 <= enemyy + 40:
         print("Close Combat")
+        closeCombat = 1
         return 2
 
+    closeCombat = 0
     return 0        
 
 
 def checkCollisionDown(playerx, playery):
     print("checkCollisionDown")
+    global closeCombat
 
     enemy = getEnemyInfo()
     enemyx = int(enemy[2])
@@ -546,11 +556,14 @@ def checkCollisionDown(playerx, playery):
     
     if playerx >= enemyx and  playerx <= enemyx + 35 and playery + 45 >= enemyy and  playery + 45 <= enemyy + 40:
         print("Close Combat")
+        closeCombat = 1
         return 2        
 
     if playerx + 35 >= enemyx and  playerx + 35 <= enemyx + 35 and playery + 45 >= enemyy and  playery + 45 <= enemyy + 40:
         print("Close Combat")
+        closeCombat = 1
         return 2  
+    
     
     return 0   
 
@@ -574,8 +587,9 @@ def game():
 
     room = [0] * 10 * 10
 
-    testCollision = 0
-
+    global closeCombat
+    closeCombat = 0
+    
     virtualGraphicRoom = ""
     virtualGraphicWorld = ""
 
@@ -597,12 +611,12 @@ def game():
     # =========== Main loop ===============
     while(running):
         if keyA.value() == 0:
-            if testCollision == 2:
-                print("testCollision: ", testCollision)
+            print("closeCombat: ", closeCombat)
+            if closeCombat == 1:
                 printstring("Close Combat", 20, 20, 2, 0, 0, blue)
-            if testCollision == 0:
-                print("testCollision: ", testCollision)
-                printstring("Close Combat", 20, 20, 2, 0, 0, colour(40,40,40))
+            if closeCombat == 0:
+                LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
+                #printstring("Close Combat", 20, 20, 2, 0, 0, colour(40,40,40))
                 
             print("A")
         
@@ -638,13 +652,14 @@ def game():
                 hidePlayer(posx, posy, colour(40,40,40))
                 posy = posy - 5
                 displayPlayer(posx, posy, LCD.white)
+                LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
                 
             savePlayer(posx, posy, roomx, roomy)
             
         # Move DOWN        
         if(down.value() == 0):
             print("DOWN", " ", posx, "/", posy)
-            testCollision = checkCollisionDown(posx, posy)
+
             if posy + 40 == 240:
                 print("Go to another room down")
                 
@@ -660,10 +675,11 @@ def game():
                 
                 displayEnemies(roomx, roomy)
                   
-            elif testCollision == 0:
+            elif checkCollisionDown(posx, posy) == 0:
                 hidePlayer(posx, posy, colour(40,40,40))
                 posy = posy + 5
                 displayPlayer(posx, posy, LCD.white)
+                LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
                 
             savePlayer(posx, posy, roomx, roomy)
             
@@ -671,7 +687,6 @@ def game():
         if(left.value() == 0):
             print("LEFT", " ", posx, "/", posy)
             
-            testCollision = checkCollisionLeft(posx, posy)
             if posx == 0:
                 print("Go to another room left")
                 
@@ -686,17 +701,18 @@ def game():
                 
                 displayEnemies(roomx, roomy)
                 
-            elif testCollision == 0:
+            elif checkCollisionLeft(posx, posy) == 0:
                 hidePlayer(posx, posy, colour(40,40,40))
                 posx = posx - 5
-                displayPlayer(posx, posy, LCD.white) 
+                displayPlayer(posx, posy, LCD.white)
+                LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
             
             savePlayer(posx, posy, roomx, roomy)
             
         # Move RIGHT
         if(right.value() == 0):
             print("RIGHT", " ", posx, "/", posy)
-            testCollision = checkCollisionRight(posx, posy)
+
             if posx + 35 == 240:
                 print("Go to another room right")
                 
@@ -711,10 +727,11 @@ def game():
                 
                 displayEnemies(roomx, roomy)
                 
-            elif testCollision == 0:
+            elif checkCollisionRight(posx, posy) == 0:
                 hidePlayer(posx, posy, colour(40,40,40))
                 posx = posx + 5
-                displayPlayer(posx, posy, LCD.white) 
+                displayPlayer(posx, posy, LCD.white)
+                LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
             
             savePlayer(posx, posy, roomx, roomy)
             
