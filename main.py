@@ -306,7 +306,8 @@ def displayEnemies(playerRoomx, playerRoomy):
 
             print(playerRoomx, " ", playerRoomy, " ", enemy[0], " ", enemy[1])
 
-            displayEnemy(int(enemy[0]), int(enemy[1]), LCD.blue)
+            if int(enemy[2]) >= 0: 
+                displayEnemy(int(enemy[0]), int(enemy[1]), LCD.blue)
 
 
 def getEnemyInfo(playerRoomx, playerRoomy):
@@ -319,7 +320,9 @@ def getEnemyInfo(playerRoomx, playerRoomy):
 
             enemy = lines[0].split(",")
     
-            return enemy
+            if int(enemy[2]) >= 0: 
+                return enemy
+            return 0
 
     return 0
 
@@ -597,6 +600,25 @@ def savePlayer(posx, posy, roomx, roomy):
     f.write(str(posx) + "," + str(posy) + "," + str(roomx) + "," + str(roomy))
 
 
+def combatEnemy(playerRoomy, playerRoomx):
+    roomNumber = playerRoomy * 10 + playerRoomx
+    filename = "enemy" + str(roomNumber) + ".txt"
+    
+    if filename in os.listdir("./enemy/"):
+        with open("./enemy/" + filename, "r") as f:
+            lines = f.readlines()
+
+            enemy = lines[0].split(",")
+    
+            print("Enemy Life: " + enemy[2])
+    
+            life = int(enemy[2]) - 1
+    
+            f = open("./enemy/" + filename, "w")
+            f.write(enemy[0] + "," + enemy[1] + "," + str(life))
+            
+    
+    
 def game():
     
     posx = int(loadPlayer()[0])
@@ -631,6 +653,7 @@ def game():
             print("closeCombat: ", closeCombat)
             if closeCombat == 1:
                 printchar("C", 20, 20, 2,True, blue)
+                combatEnemy(roomx, roomy)
             if closeCombat == 0:
                 delchar(20,20,2,True)
                 #LCD.fill_rect(20, 20, 200, 20, colour(40, 40, 40))
