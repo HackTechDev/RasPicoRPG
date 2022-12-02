@@ -368,7 +368,7 @@ def loadWorld(worldNumber):
     i = 0
     x = 0
     y = 0
-    filename = "world" + str(worldNumber) + ".txt"
+    filename = "./world/world" + str(worldNumber) + ".txt"
     f = open(filename, "r")
     lines = f.readlines()
 
@@ -385,11 +385,11 @@ def loadWorld(worldNumber):
 def saveMapWorld(roomx, roomy):
     worldNumber = 1
     
-    os.rename("world" + str(worldNumber) + ".txt", "world" + str(worldNumber) + ".tmp")
+    os.rename("./world/world" + str(worldNumber) + ".txt", "world" + str(worldNumber) + ".tmp")
     
-    e = open("world" + str(worldNumber) + ".txt", "w+")
+    e = open("./world/world" + str(worldNumber) + ".txt", "w+")
     
-    f = open("world" + str(worldNumber) + ".tmp", "r")
+    f = open("./world/world" + str(worldNumber) + ".tmp", "r")
     lines = f.readlines()
     
     writeRoom = 0
@@ -397,7 +397,7 @@ def saveMapWorld(roomx, roomy):
     for y, line in enumerate(lines):
         for x, char in enumerate(line):
             if char == '\n':
-                print("\n")
+                #print("\n")
                 e.write("\n")
             else:
                 if x == roomx and y == roomy:
@@ -413,7 +413,7 @@ def saveMapWorld(roomx, roomy):
            
 
 def initMapWorld(worldNumber):
-    f = open("world" + str(worldNumber) + ".txt", "w")
+    f = open("./world/world" + str(worldNumber) + ".txt", "w")
     
     for i in range(0, 10):
         for j in range(0, 10):
@@ -431,7 +431,7 @@ def displayMapWorld():
     i = 0
     x = 0
     y = 0
-    filename = "world" + str(worldNumber) + ".txt"
+    filename = "./world/world" + str(worldNumber) + ".txt"
     f = open(filename, "r")
     lines = f.readlines()
 
@@ -589,14 +589,14 @@ def checkCollisionDown(roomx, roomy, playerx, playery):
 
 
 def loadPlayer():
-    f = open("player.txt", "r")
+    f = open("./player/player.txt", "r")
     lines = f.readlines()
 
     return lines[0].split(",")
 
 
 def savePlayer(posx, posy, roomx, roomy):
-    f = open("player.txt", "w")
+    f = open("./player/player.txt", "w")
     f.write(str(posx) + "," + str(posy) + "," + str(roomx) + "," + str(roomy))
 
 
