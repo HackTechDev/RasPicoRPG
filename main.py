@@ -797,99 +797,102 @@ def generateMaze():
     exec(open("generateMaze.py").read())
 
 # =========== Main ============
-pwm = PWM(Pin(BL)) # Screen Brightness
-pwm.freq(1000)
-pwm.duty_u16(32768) # max 65535 - mid value
 
-LCD = modlcd.LCD_1inch3()
-# Background colour - dark grey
-LCD.fill(colour(40,40,40))
-LCD.show()
+if __name__=='__main__':
+    pwm = PWM(Pin(BL)) # Screen Brightness
+    pwm.freq(1000)
+    pwm.duty_u16(32768) # max 65535 - mid value
 
-# Define pins for buttons and Joystick
-keyA = Pin(15,Pin.IN,Pin.PULL_UP) # Normally 1 but 0 if pressed
-keyB = Pin(17,Pin.IN,Pin.PULL_UP)
-keyX = Pin(19,Pin.IN,Pin.PULL_UP)
-keyY= Pin(21,Pin.IN,Pin.PULL_UP)
-
-up = Pin(2,Pin.IN,Pin.PULL_UP)
-down = Pin(18,Pin.IN,Pin.PULL_UP)
-left = Pin(16,Pin.IN,Pin.PULL_UP)
-right = Pin(20,Pin.IN,Pin.PULL_UP)
-ctrl = Pin(3,Pin.IN,Pin.PULL_UP)
-
-# Draw background, frame, title and instructions
-LCD.rect(0,0,240,240,LCD.red) # Red edge
-# White Corners
-LCD.pixel(1,1,LCD.white)     # LT
-LCD.pixel(0,239,LCD.white)   # LB
-LCD.pixel(239,0,LCD.white)   # RT
-LCD.pixel(239,239,LCD.white) # RB
-LCD.show()
-
-# ======= Menu ==============
-
-initMapWorld(1)
-
-m = 0
-yellow = colour(255,255,0)
-blue = colour(0,0,255)
-running = True
-while running:
-    c = colour(255,0,0) 
-    printstring("RasPicoRPG",17,10,3,0,0,c)
-    c = yellow
-    if m == 0:
-        c = blue
-    printstring("Game",35,50,2,0,0,c)
-    
-    c = yellow
-    if m == 1:
-        c = blue
-    printstring("Map",35,80,2,0,0,c)
-
-    c = yellow
-    if m == 2:
-        c = blue
-    printstring("New World",35,110,2,0,0,c)
-
-    c = yellow
-    if m == 3:
-        c = blue
-    printstring("Quit",35,170,2,0,0,c)
-    
+    LCD = modlcd.LCD_1inch3()
+    # Background colour - dark grey
+    LCD.fill(colour(40,40,40))
     LCD.show()
-    
-    # Check joystick UP/DOWN/CTRL
-    if(up.value() == 0):
-        m = m - 1
-        if m < 0:
-            m = 0
-            
-    elif(down.value() == 0):
-        m = m + 1
-        if m > 3:
-            m = 3
-                       
-    elif(ctrl.value() == 0):
-        if(m == 3): # Exit loop and HALT program
-            running = False
-        if(m == 2):
-            generateMaze()            
-        if(m == 1):
-            displayMapWorld()
-        if(m == 0):
-            game()
-            
+
+    # Define pins for buttons and Joystick
+    keyA = Pin(15,Pin.IN,Pin.PULL_UP) # Normally 1 but 0 if pressed
+    keyB = Pin(17,Pin.IN,Pin.PULL_UP)
+    keyX = Pin(19,Pin.IN,Pin.PULL_UP)
+    keyY= Pin(21,Pin.IN,Pin.PULL_UP)
+
+    up = Pin(2,Pin.IN,Pin.PULL_UP)
+    down = Pin(18,Pin.IN,Pin.PULL_UP)
+    left = Pin(16,Pin.IN,Pin.PULL_UP)
+    right = Pin(20,Pin.IN,Pin.PULL_UP)
+    ctrl = Pin(3,Pin.IN,Pin.PULL_UP)
+
+    # Draw background, frame, title and instructions
+    LCD.rect(0,0,240,240,LCD.red) # Red edge
+    # White Corners
+    LCD.pixel(1,1,LCD.white)     # LT
+    LCD.pixel(0,239,LCD.white)   # LB
+    LCD.pixel(239,0,LCD.white)   # RT
+    LCD.pixel(239,239,LCD.white) # RB
+    LCD.show()
+
+    # ======= Menu ==============
+
+    initMapWorld(1)
+
+    m = 0
+    yellow = colour(255,255,0)
+    blue = colour(0,0,255)
+    running = True
+    while running:
+        c = colour(255,0,0) 
+        printstring("RasPicoRPG",17,10,3,0,0,c)
+        c = yellow
+        if m == 0:
+            c = blue
+        printstring("Game",35,50,2,0,0,c)
+        
+        c = yellow
+        if m == 1:
+            c = blue
+        printstring("Map",35,80,2,0,0,c)
+
+        c = yellow
+        if m == 2:
+            c = blue
+        printstring("New World",35,110,2,0,0,c)
+
+        c = yellow
+        if m == 3:
+            c = blue
+        printstring("Quit",35,170,2,0,0,c)
+        
+        LCD.show()
+        
+        # Check joystick UP/DOWN/CTRL
+        if(up.value() == 0):
+            m = m - 1
+            if m < 0:
+                m = 0
+                
+        elif(down.value() == 0):
+            m = m + 1
+            if m > 3:
+                m = 3
+                           
+        elif(ctrl.value() == 0):
+            if(m == 3): # Exit loop and HALT program
+                running = False
+            if(m == 2):
+                generateMaze()            
+            if(m == 1):
+                displayMapWorld()
+            if(m == 0):
+                game()
+                
 
 
-# Finish
-LCD.fill(0)
-for r in range(10):
-    ring(120,120,60+r,colour(255,255,0))
-LCD.text("Halted", 95, 115, colour(255,0,0))
-LCD.show()
-# Tidy up
-utime.sleep(3)
-LCD.fill(0)
-LCD.show()
+    # Finish
+    LCD.fill(0)
+    for r in range(10):
+        ring(120,120,60+r,colour(255,255,0))
+    LCD.text("Halted", 95, 115, colour(255,0,0))
+    LCD.show()
+    # Tidy up
+    utime.sleep(3)
+    LCD.fill(0)
+    LCD.show()
+
