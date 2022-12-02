@@ -868,8 +868,8 @@ while running:
             
     elif(down.value() == 0):
         m = m + 1
-        if m > 2:
-            m = 2
+        if m > 3:
+            m = 3
                        
     elif(ctrl.value() == 0):
         if(m == 3): # Exit loop and HALT program
