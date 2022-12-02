@@ -385,7 +385,7 @@ def loadWorld(worldNumber):
 def saveMapWorld(roomx, roomy):
     worldNumber = 1
     
-    os.rename("./world/world" + str(worldNumber) + ".txt", "world" + str(worldNumber) + ".tmp")
+    os.rename("./world/world" + str(worldNumber) + ".txt", "./world/world" + str(worldNumber) + ".tmp")
     
     e = open("./world/world" + str(worldNumber) + ".txt", "w+")
     
@@ -645,6 +645,8 @@ def game():
     displayPlayer(posx, posy, LCD.white)
 
     displayEnemies(roomx, roomy)
+    
+    saveMapWorld(roomx, roomy)
     
     running = True # Loop control
     # =========== Main loop ===============
