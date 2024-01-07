@@ -225,37 +225,47 @@ def hidePlayer(posx, posy, color):
     LCD.fill_rect(posx, posy, 35, 40, color)    
 
 
+def colour(R,G,B): # Convert RGB888 to RGB565
+    return (((G&0b00011100)<<3) +((R&0b11111000)>>3)<<8) + (B&0b11111000)+((G&0b11100000)>>5)
+
+
 def displayPlayer(posx, posy, color):
-    LCD.fill_rect(posx + 10, posy, 5, 5, color)
-    LCD.fill_rect(posx + 15, posy, 5, 5, color)
-    LCD.fill_rect(posx + 20, posy, 5, 5, color)
+    // Head
+    LCD.fill_rect(posx + 10, posy + 5, 5, 5, colour(255, 0, 0))
+    LCD.fill_rect(posx + 15, posy + 5, 5, 5, colour(255, 0, 0))
+    LCD.fill_rect(posx + 20, posy + 5, 5, 5, colour(255, 0, 0))
     
-    LCD.fill_rect(posx + 10, posy + 5, 5, 5, color)
-    LCD.fill_rect(posx + 15, posy + 5, 5, 5, color)
-    LCD.fill_rect(posx + 20, posy + 5, 5, 5, color)
+    LCD.fill_rect(posx + 10, posy + 10, 5, 5, colour(255, 0, 0))
+    LCD.fill_rect(posx + 15, posy + 10, 5, 5, colour(255, 255, 0))
+    LCD.fill_rect(posx + 20, posy + 10, 5, 5, colour(255, 0, 0))
     
-    LCD.fill_rect(posx + 15, posy + 10, 5, 5, color)
+    // Arms + Body
+    LCD.fill_rect(posx + 10, posy + 15, 5, 5, colour(255, 255, 0))
+    LCD.fill_rect(posx + 15, posy + 15, 5, 5, colour(255, 255, 0))
+    LCD.fill_rect(posx + 20, posy + 15, 5, 5, colour(255, 255, 0))
     
-    LCD.fill_rect(posx + 5, posy + 15, 5, 5, color)
-    LCD.fill_rect(posx + 10, posy + 15, 5, 5, color)
-    LCD.fill_rect(posx + 15, posy + 15, 5, 5, color)
-    LCD.fill_rect(posx + 20, posy + 15, 5, 5, color)
-    LCD.fill_rect(posx + 25, posy + 15, 5, 5, color)
+    
+    LCD.fill_rect(posx + 5, posy + 20, 5, 5, colour(255, 255, 0))
+    LCD.fill_rect(posx + 10, posy + 20, 5, 5, colour(0, 255, 0))
+    LCD.fill_rect(posx + 15, posy + 20, 5, 5, colour(0, 255, 0))
+    LCD.fill_rect(posx + 20, posy + 20, 5, 5, colour(0, 255, 0))
+    LCD.fill_rect(posx + 25, posy + 20, 5, 5, colour(255, 255, 0))
 
     
-    LCD.fill_rect(posx, posy + 20, 5, 5, color)
-    LCD.fill_rect(posx + 15, posy + 20, 5, 5, color)
-    LCD.fill_rect(posx + 30, posy + 20, 5, 5, color)        
+    LCD.fill_rect(posx + 5, posy + 25, 5, 5, colour(0, 255, 255))
+    LCD.fill_rect(posx + 10, posy + 25, 5, 5, colour(0, 255, 0))
+    LCD.fill_rect(posx + 15, posy + 25, 5, 5, colour(0, 255, 0))
+    LCD.fill_rect(posx + 20, posy + 25, 5, 5, colour(0, 255, 0))
+    LCD.fill_rect(posx + 25, posy + 25, 5, 5, colour(0, 255, 255))
+
+    // Legs
+    LCD.fill_rect(posx + 10, posy + 30, 5, 5, colour(0, 0, 255))
+    LCD.fill_rect(posx + 15, posy + 30, 5, 5, colour(0, 0, 255))
+    LCD.fill_rect(posx + 20, posy + 30, 5, 5, colour(0, 0, 255))
     
-    LCD.fill_rect(posx + 10, posy + 25, 5, 5 , color)
-    LCD.fill_rect(posx + 20, posy + 25, 5, 5, color)  
-
-    LCD.fill_rect(posx + 10, posy + 30, 5, 5, color)
-    LCD.fill_rect(posx + 20, posy + 30, 5, 5, color)  
-
-    LCD.fill_rect(posx + 10 , posy + 35, 5, 5, color)
-    LCD.fill_rect(posx + 20 , posy + 35, 5, 5, color)     
-
+    LCD.fill_rect(posx + 10, posy + 35, 5, 5, colour(100, 100, 100))
+    LCD.fill_rect(posx + 20, posy + 35, 5, 5, colour(100, 100, 100))
+    
 
 def hideEnemy(posx, posy, color):
     LCD.fill_rect(posx, posy, 35, 40, color)    
